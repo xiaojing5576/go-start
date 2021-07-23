@@ -55,20 +55,38 @@ func BenchmarkSliceAndSlicePointer(b *testing.B) {
 	fmt.Println(outerSlice)
 }
 
-func modifySlice2(innerSlice []string) []string {
-	innerSlice = append(innerSlice, "a")
-	innerSlice[0] = "b"
-	innerSlice[1] = "b"
+func modifySlice2(innerSlice *[]string) {
+	*innerSlice = append(*innerSlice, "a")
+	(*innerSlice)[0] = "b"
+	(*innerSlice)[1] = "b"
 	fmt.Println(innerSlice)
-	return innerSlice
+	fmt.Printf("%p\n", innerSlice)
 }
 
 func BenchmarkSliceAndSlicePointer2(b *testing.B) {
 	outerSlice := make([]string, 0, 3)
 	outerSlice = append(outerSlice, "a", "a")
-	innerSlice := modifySlice2(outerSlice)
-	fmt.Println(outerSlice)
+	fmt.Printf("%p\n", &outerSlice)
+	modifySlice2(&outerSlice)
 	outerSlice = append(outerSlice, "c")
-	fmt.Println(outerSlice)
-	fmt.Println(innerSlice)
+	//fmt.Println(outerSlice,outerSlice)
+	//fmt.Println(innerSlice,innerSlice)
+	fmt.Printf("%p\n", &outerSlice)
+}
+
+func BenchmarkArrayAndSlice2(b *testing.B) {
+	arrayA := [2]int{100, 200}
+	//var arrayB [2]int
+
+	fmt.Printf("arrayA : %p , %v\n", &arrayA, arrayA)
+	fmt.Println("112")
+	arrayB := arrayA
+
+	fmt.Printf("arrayB : %p , %v\n", &arrayB, arrayB)
+
+	testArray(arrayA)
+}
+
+func testArray(x [2]int) {
+	fmt.Printf("func Array : %p , %v\n", &x, x)
 }
