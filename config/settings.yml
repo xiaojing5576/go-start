@@ -1,0 +1,3 @@
+datasource:
+  maxConn: 200
+  maxOpen: 200
