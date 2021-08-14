@@ -10,7 +10,9 @@ import (
 func LoginPost(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
-	user := model.QueryUserWithParam(username, password)
+
+	var user model.User
+	user, _ = user.QueryUserWithParam(username, password)
 	if &user != nil {
 		session := sessions.Default(c)
 		session.Set("loginUser", username)

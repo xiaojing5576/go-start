@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"myweb/initsql"
 	"time"
 )
@@ -12,8 +13,8 @@ type User struct {
 	CreateTime time.Time `gorm:"type:timestamp;not null"`
 }
 
-func QueryUserWithParam(username string, password string) User {
-	var user User
-	initsql.GetDB().Where("username = ? and password = ?", username, password).First(&user)
-	return user
+func (user *User) QueryUserWithParam(username string, password string) (User, error) {
+	var u User
+	initsql.GetDB().Where("username = ? and password = ?", username, password).First(&u)
+	return u, errors.New("ok")
 }
